@@ -27,7 +27,7 @@ Session* Selenium::createSession(Capabilities* desiredCapabilities) {
   ptree resp;
   json_decode(resp_raw,&resp);
 
-  if (  resp.get<int>("status") == 0 ) {
+  if ( resp.get<int>("status") == 0 ) {
 
      Session* s = new Session();
      s->id = resp.get<std::string>("sessionId");

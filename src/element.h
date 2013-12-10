@@ -1,6 +1,8 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 #include <string>
+#include <iostream>
+#include "http.h"
 
 using std::string;
 
@@ -26,8 +28,16 @@ class ElementQuery {
 };
 
 class Element {
+  
   public:
-  	Element();
+
+    string sessid;
+    string id;
+    Element();
+  	Element(string,string);
+    void click();
+    string getText();
+
 };
 
 #endif

@@ -17,9 +17,18 @@ class Session {
     Capabilities* capabilities;
   	Session();
   	void url(string);
-  	void element(ElementQuery*);
+  	void back();
+  	void forward();
+  	void refresh();
+  	Element* element(ElementQuery*);
+  	Element* activeElement();
   	void click(Element*);
+  	void click(ElementQuery*);
   	void click(string);
+
+  
+    string getURL(); 
+
 
 };
 
