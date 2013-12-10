@@ -2,6 +2,8 @@
 #include "http.h"
 #include "capabilities.h"
 #include "element.h"
+#include "json.h"
+
 
 using std::string;
 
@@ -15,6 +17,7 @@ class Session {
     Capabilities* capabilities;
   	Session();
   	void url(string);
+  	void element(ElementQuery*);
   	void click(Element*);
   	void click(string);
 
