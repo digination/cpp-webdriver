@@ -24,9 +24,6 @@ int main(int argc,char** argv) {
     e1->getText();
     e1->click();
 
-    
-
-
     //cout << e1->id << ":" << e2->id << ":" << e3->id << endl;
     //sess->url("http://ig.com/fr/login");
     //sess->back();

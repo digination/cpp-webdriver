@@ -15,14 +15,11 @@ ElementQuery::ElementQuery(string istrat,string ivalue) {
 }
 
 string ElementQuery::json_encode() {
-
   string ret = "{";
   ret += "\t\"using\":\"" + strat + "\",\n";
   ret += "\t\"value\":\"" + value + "\"\n";
   ret +="}";
-
   return ret;
-
 }
 
 
@@ -43,7 +40,12 @@ void Element::click() {
   http* h = new http();
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/click","");
+  std::string resp_raw = h->post(seleniumURL + 
+                                 "/session/" + 
+                                 sessid + 
+                                 "/element/" + 
+                                 id + 
+                                 "/click","");
 
   std::cout << resp_raw << std::endl;
 
@@ -57,10 +59,68 @@ string Element::getText() {
   http* h = new http();
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
-  std::string resp_raw = h->get(seleniumURL + "/session/" + sessid + "/element/" + id + "/text");
+  std::string resp_raw = h->get(seleniumURL + 
+                                "/session/" + 
+                                sessid + 
+                                "/element/" + 
+                                id + 
+                                "/text");
+
   std::cout << resp_raw << std::endl;
 
   return "";
+}
 
 
+void Element::sendKey(int keynum) {
+  extern std::string seleniumURL;
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + 
+                                "/session/" + 
+                                sessid + 
+                                "/element/" + 
+                                id + 
+                                "/value","");
+
+  std::cout << resp_raw << std::endl;
+
+}
+
+
+void Element::sendKeys(std::vector<int> keys) {
+
+  extern std::string seleniumURL;
+
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + 
+                                "/session/" + 
+                                sessid + 
+                                "/element/" + 
+                                id + 
+                                "/value","");
+
+  std::cout << resp_raw << std::endl;
+ 
+}
+
+void Element::sendKeys(string keys) {
+
+  extern std::string seleniumURL;
+
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + 
+                                "/session/" + 
+                                sessid + 
+                                "/element/" + 
+                                id + 
+                                "/value","");
+
+  std::cout << resp_raw << std::endl;
+  
 }

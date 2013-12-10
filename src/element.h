@@ -2,6 +2,7 @@
 #define ELEMENT_H
 #include <string>
 #include <iostream>
+#include <vector>
 #include "http.h"
 
 using std::string;
@@ -36,7 +37,12 @@ class Element {
     Element();
   	Element(string,string);
     void click();
+    void sendKey(int keynum);
+    void sendKeys(std::vector<int>);
+    void sendKeys(std::string);
     string getText();
+
+
 
 };
 
