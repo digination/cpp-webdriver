@@ -4,7 +4,7 @@ cpp-webdriver
 cpp-webdriver is a C++ binding for the Selenium REST API.
 
 Dependancies
-++++++++++++
+------------
 
 * boost 1.4+
 
@@ -12,8 +12,7 @@ Dependancies
 
 
 Compile & Install
-+++++++++++++++++
-
+-----------------
 
 Clone this repository with the following command:
 
