@@ -19,7 +19,7 @@ Status
 
 * Doc: 0%
 
-* Unit Tests: 0%
+* Unit Tests: 0% (Code Coverage: 0%)
 
 
 Compile & Install
@@ -65,7 +65,7 @@ int main(int argc,char* argv) {
   sess->url("http://www.google.com");
 
   //gets all the links on the page
-  vector<Element*> links = sess->elements(new ElementQuery(ElementQuery::STRAT_TAG_NAME,"a"));
+  std::vector<Element*> links = sess->elements(new ElementQuery(ElementQuery::STRAT_TAG_NAME,"a"));
 
   //displays the number of links on the google homepage
   cout << "# of links:" << links.size() << endl;
