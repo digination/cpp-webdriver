@@ -29,9 +29,11 @@ Clone this repository with the following command:
 
 ```shell
 git clone http://github.com/digination/cpp-webdriver
+```
 
-#Then, create a new directory for building puproses:
+Then, create a new directory for building puproses:
 
+```Shell
 mkdir cpp-webdriver-build
 
 cd cpp-webdriver-build
