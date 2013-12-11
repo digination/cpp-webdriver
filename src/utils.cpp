@@ -106,6 +106,13 @@ std::string int2string(int i) {
   return os.str();
 }
 
+std::string char2string(char i) {
+  std::ostringstream os;
+  os << i;
+  return os.str();
+}
+
+
 
 bool contains(std::vector<std::string> l,std::string s) {
 

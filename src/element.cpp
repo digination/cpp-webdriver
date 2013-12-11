@@ -110,7 +110,16 @@ void Element::sendKeys(std::vector<int> keys) {
 void Element::sendKeys(string keys) {
 
   extern std::string seleniumURL;
+  string keys_array = "[";
+  string pdata;
 
+  for (int i=0;i<keys.length();i++) {
+    keys_array += "'" + char2string(keys[i])  + "'";
+    if (i+1 != keys.length() ) keys_array += ",";
+  }
+  keys_array += "]";
+  pdata = "{\"value\":" + keys_array  +  "}";
+  std::cout << pdata << std::endl;
   http* h = new http();
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
@@ -119,8 +128,8 @@ void Element::sendKeys(string keys) {
                                 sessid + 
                                 "/element/" + 
                                 id + 
-                                "/value","");
+                                "/value",pdata);
+  
 
-  std::cout << resp_raw << std::endl;
   
 }

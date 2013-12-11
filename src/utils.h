@@ -39,6 +39,7 @@ void sreplaceAll(std::string&,
 std::string currentDateTime();
 std::string float2string(float);
 std::string int2string(int);
+std::string char2string(char i);
 
 bool contains(std::vector<std::string>,std::string);
 

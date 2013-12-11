@@ -19,7 +19,7 @@ class http {
   	std::string post(std::string,std::string);
   	std::string post(std::string url,AssocArray<std::string> post_data);
   	std::string del(std::string url);
-
+    
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "http.h"
+#include "utils.h"
 
 using std::string;
 

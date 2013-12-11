@@ -17,6 +17,10 @@ http::http() {
   headers = NULL;
 }
 
+void destroy() {
+ curl_easy_cleanup(ch);
+}
+
 
 void http::add_header(std::string header) {
   headers = curl_slist_append(headers, header.c_str());

@@ -13,20 +13,38 @@ int main(int argc,char** argv) {
   Session *sess = s->createSession(dcap);
   
   if (sess != NULL) {
-    sess->url("http://www.google.com");
+    sess->url("http://www.ig.com/fr/login");
 
-    ElementQuery* eq = new ElementQuery(ElementQuery::STRAT_ID,"gb_70");
-    ElementQuery* eq2 = new ElementQuery(ElementQuery::STRAT_TAG_NAME,"title");
-    Element* e1 = sess->element(eq);
-    Element* e2 = sess->element(eq2);
-    Element* e3 = sess->activeElement();
+    ElementQuery* q1 = new ElementQuery(ElementQuery::STRAT_ID,"account_id");
+    ElementQuery* q2 = new ElementQuery(ElementQuery::STRAT_ID,"password");
+    ElementQuery* q3 = new ElementQuery(ElementQuery::STRAT_ID,"loginbutton");
 
-    e1->getText();
-    e1->click();
+    Element* account_id = sess->element(q1);
+    Element* password = sess->element(q2);
+    Element* loginbutton = sess->element(q3);
 
-    //cout << e1->id << ":" << e2->id << ":" << e3->id << endl;
-    //sess->url("http://ig.com/fr/login");
-    //sess->back();
+    if (account_id != NULL) {
+      account_id->sendKeys("demo-avargas");
+    }
+
+    if (password != NULL) {
+      password->sendKeys("oinitan44");
+    }
+
+    if (loginbutton != NULL) {
+      loginbutton->click();
+    }
+
+    sleep(10);
+
+    //* ############## Values Fetching  ##############*/
+    
+    ElementQuery *q4 = new ElementQuery(ElementQuery::STRAT_CLASS)
+    
+
+
+
+
 
   }
 

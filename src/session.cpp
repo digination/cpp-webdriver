@@ -13,9 +13,8 @@ void Session::url(string url) {
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/url",  "{\"url\":\"" + url + "\"}");
+  h->destroy();
 
-  std::cout << "RESPONSE:" << resp_raw << std::endl;
-  
 }
 
 
@@ -25,7 +24,7 @@ void Session::back() {
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/back","");
-  std::cout << "RESPONSE:" << resp_raw << std::endl;
+  h->destroy();
 
 }
 
@@ -36,8 +35,7 @@ void Session::forward() {
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/forward","");
-  std::cout << "RESPONSE:" << resp_raw << std::endl;
-
+  h->destroy();
 }
 
 
@@ -47,7 +45,7 @@ void Session::refresh() {
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/refresh","");
-  std::cout << "RESPONSE:" << resp_raw << std::endl;
+  h->destroy();
 
 }
 
@@ -59,37 +57,34 @@ Element* Session::element(ElementQuery* eq) {
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/element",pdata);
+  h->destroy();
 
-  std::cout << "RESPONSE:" << resp_raw << std::endl;
   ptree resp;
   json_decode(resp_raw,&resp);
 
   if (resp.get<int>("status") == 0 ) {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
-
   else return NULL;
+}
 
+
+std::vector <Element*> Session::elements(ElementQuery* eq) {
+  std::vector<Element*> result;
+  return result;
 }
 
 Element* Session::activeElement() {
-
   http* h = new http();
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/element/active","");
 
-  std::cout << "RESPONSE:" << resp_raw << std::endl;
   ptree resp;
   json_decode(resp_raw,&resp);
 
   if (resp.get<int>("status") == 0 ) {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
-
   else return NULL;
-
-
 }
-
-
