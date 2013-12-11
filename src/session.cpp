@@ -46,9 +46,23 @@ void Session::refresh() {
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/refresh","");
   h->destroy();
-
 }
 
+ptree Session::execute(string script,bool async) {
+
+  ptree result;
+  
+  string pdata = "{\"script\": " + script + ",\"args\": []}";
+
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + "/session/" + id + ( (async) ? "/execute_async": "/execute" ) ,pdata);
+  h->destroy();
+
+  return result;
+
+}
 
 Element* Session::element(ElementQuery* eq) {
   
@@ -109,4 +123,49 @@ Element* Session::activeElement() {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
   else return NULL;
+}
+
+
+//################ ALERTS MANAGEMENT FCTS ##################
+
+void Session::acceptAlert() {
+
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/accept_alert","");
+  h->destroy();
+
+}
+
+void Session::dismissAlert() {
+
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/dismiss_alert","");
+  h->destroy();
+
+}
+
+string Session::getAlertText() {
+
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->get(seleniumURL + "/session/" + id + "/alert_text");
+  h->destroy();
+
+  return resp_raw;
+}
+
+void Session::sendKeysToAlert(string text) {
+
+  string pdata = "{\"text\":\"" + text  + "\"}";
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/alert_text",pdata);
+  h->destroy();
+
 }

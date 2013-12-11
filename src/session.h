@@ -9,10 +9,6 @@
 using std::string;
 using std::vector;
 
-#define CSS_SELECTOR 0x01
-#define NAME_SELECTOR 0x02
-#define ID_SELECTOR 0x03
-
 class Session {
   public:
     string id;
@@ -28,10 +24,14 @@ class Session {
   	void click(Element*);
   	void click(ElementQuery*);
   	void click(string);
-
-  
     string getURL(); 
+    ptree execute(string,bool);
 
+    /* Alerts/Notices Management */
+    void acceptAlert();
+    void dismissAlert();
+    string getAlertText();
+    void sendKeysToAlert(string);
 
 };
 
