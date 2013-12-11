@@ -43,7 +43,7 @@ make && make install.
 Usage Example
 -------------
 
-`
+```C++
 #include "selenium.h"
 #include <iostream>
 #include <vector>
@@ -70,4 +70,4 @@ int main(int argc,char* argv) {
   cout << "# of links:" << links.size() << endl;
 
 }
-`
+```
