@@ -39,6 +39,7 @@ class Element {
     Element();
   	Element(string,string);
     void click();
+    Element* element(ElementQuery*);
     void sendKey(int keynum);
     void sendKeys(std::vector<int>);
     void sendKeys(std::string);

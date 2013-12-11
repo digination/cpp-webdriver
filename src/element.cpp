@@ -74,37 +74,11 @@ string Element::getText() {
 
 void Element::sendKey(int keynum) {
   extern std::string seleniumURL;
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + 
-                                "/session/" + 
-                                sessid + 
-                                "/element/" + 
-                                id + 
-                                "/value","");
-
-  std::cout << resp_raw << std::endl;
-
 }
 
 
 void Element::sendKeys(std::vector<int> keys) {
-
   extern std::string seleniumURL;
-
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + 
-                                "/session/" + 
-                                sessid + 
-                                "/element/" + 
-                                id + 
-                                "/value","");
-
-  std::cout << resp_raw << std::endl;
- 
 }
 
 void Element::sendKeys(string keys) {
@@ -129,6 +103,30 @@ void Element::sendKeys(string keys) {
                                 "/element/" + 
                                 id + 
                                 "/value",pdata);
+
+}
+
+
+Element* Element::element(ElementQuery* eq) {
+
+  extern std::string seleniumURL;
+
+  http* h = new http();
+  std::string pdata = eq->json_encode();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/element" ,pdata);
+  h->destroy();
+
+  std::cout << resp_raw << std::endl;
+
+  ptree resp;
+  json_decode(resp_raw,&resp);
+
+  if (resp.get<int>("status") == 0 ) {
+    return new Element(id, resp.get<string>("value.ELEMENT") );
+  }
+  else return NULL;
 
 }
 

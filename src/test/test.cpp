@@ -3,6 +3,40 @@
 
 using namespace std;
 
+
+int getpositions() {
+
+  //vector<Element*> = ; 
+}
+
+int openpos(Session* sess,string epic,string way,int qte,int stop,int limit) {
+
+  Element* openpos_line = sess->element(new ElementQuery(ElementQuery::STRAT_CLASS,
+                                                         "tr[class='rec-" + epic + "']" ));
+
+
+  if (openpos_line != NULL) {
+
+    Element* openpos_btn = openpos_line->element(new ElementQuery(ElementQuery::STRAT_CLASS, "dealOpen"));
+    if (openpos_btn != NULL) {
+
+      cout<< "OPENPOS TEXT:" << openpos_btn->getText() << endl;
+
+      openpos_btn->click();
+    }
+
+    else {
+      cout << "OPENPOS BTN NOT FOUND!" << endl;
+    }
+
+  }
+
+  else {
+    cout << "OPENPOS LINE NOT FOUND" << endl;
+  }
+
+}
+
 int main(int argc,char** argv) {
 
   cout << "Libselenium++ Test Program" << endl;
@@ -14,15 +48,6 @@ int main(int argc,char** argv) {
   
   if (sess != NULL) {
     
-     sess->url("http://www.google.com");
-     Element* conn_btn = sess->element(new ElementQuery(ElementQuery::STRAT_ID,"gb_70"));
-
-     std::cout << conn_btn->getCSS("background-color") << endl;
-       
-
-
-    /*
-
     sess->url("http://www.ig.com/fr/login");
 
     ElementQuery* q1 = new ElementQuery(ElementQuery::STRAT_ID,"account_id");
@@ -34,11 +59,11 @@ int main(int argc,char** argv) {
     Element* loginbutton = sess->element(q3);
 
     if (account_id != NULL) {
-      account_id->sendKeys("demo-avargas");
+      account_id->sendKeys("");
     }
 
     if (password != NULL) {
-      password->sendKeys("oinitan44");
+      password->sendKeys("");
     }
 
     if (loginbutton != NULL) {
@@ -47,18 +72,33 @@ int main(int argc,char** argv) {
 
     sleep(10);
 
-    //############## Values Fetching  ##############
-
-    vector<Element*> a_list = sess->elements(new ElementQuery(ElementQuery::STRAT_TAG_NAME,"a"));
-  
-    cout << "# Of Links:" << a_list.size() << endl; 
-
-    */
     
+    //Passage du bouton "Valider et sauvegarder"
+    Element* accept_btn = sess->element(new ElementQuery(ElementQuery::STRAT_CLASS,
+                                                         "submit_button"));
+    if (accept_btn != NULL) {
+      accept_btn->click();
+    }
+    else {
+      cout << "CANNOT GET ACCCEPT BTN" << endl;
+    }
 
+    //Selection des valeurs dans "Ma Liste"
+    vector<Element*> watchlist_links = sess->elements(new ElementQuery(ElementQuery::STRAT_CLASS,"watchlistName"));
 
+    if (watchlist_links.size() == 3) {
+      watchlist_links[2]->click();
+    }
 
+    //Fin de L'initialisation
+    sleep(3);
 
+    openpos(sess,"IX.D.CAC.IMF.IP","buy",2,10,10);
+
+    //############## Values Fetching  ##############
+    //vector<Element*> a_list = sess->elements(new ElementQuery(ElementQuery::STRAT_TAG_NAME,"a"));
+    //cout << "# Of Links:" << a_list.size() << endl;
+    
   }
 
 }

@@ -59,6 +59,8 @@ Element* Session::element(ElementQuery* eq) {
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/element",pdata);
   h->destroy();
 
+  std::cout << resp_raw << std::endl;
+
   ptree resp;
   json_decode(resp_raw,&resp);
 
