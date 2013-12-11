@@ -5,6 +5,7 @@
 #include <vector>
 #include "http.h"
 #include "utils.h"
+#include "json.h"
 
 using std::string;
 
@@ -42,6 +43,7 @@ class Element {
     void sendKeys(std::vector<int>);
     void sendKeys(std::string);
     string getText();
+    string getCSS(std::string property);
 
 
 

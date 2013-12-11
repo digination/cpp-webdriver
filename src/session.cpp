@@ -71,6 +71,25 @@ Element* Session::element(ElementQuery* eq) {
 
 std::vector <Element*> Session::elements(ElementQuery* eq) {
   std::vector<Element*> result;
+  std::string pdata = eq->json_encode();
+
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/elements",pdata);
+  h->destroy();
+
+  ptree resp;
+  json_decode(resp_raw,&resp);
+
+  if (resp.get<int>("status") == 0 ) {
+
+     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
+                   resp.get_child("value")) {
+       const ptree& child = v.second;
+       result.push_back(new Element(id,child.get<string>("ELEMENT")));
+     }
+  }
   return result;
 }
 
@@ -79,6 +98,7 @@ Element* Session::activeElement() {
   h->add_header("Content-Type: application/json;charset=UTF-8");
   h->add_header("Accept: application/json");
   std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/element/active","");
+  h->destroy();
 
   ptree resp;
   json_decode(resp_raw,&resp);

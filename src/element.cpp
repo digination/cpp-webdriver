@@ -129,7 +129,33 @@ void Element::sendKeys(string keys) {
                                 "/element/" + 
                                 id + 
                                 "/value",pdata);
-  
 
-  
+}
+
+
+std::string Element::getCSS(std::string property) {
+
+  string res = "";
+
+  extern std::string seleniumURL;
+  http* h = new http();
+  h->add_header("Content-Type: application/json;charset=UTF-8");
+  h->add_header("Accept: application/json");
+
+  std::string resp_raw = h->get(seleniumURL + 
+                                "/session/" + 
+                                sessid + 
+                                "/element/" + 
+                                id + 
+                                "/css/" + property);
+  h->destroy();
+
+  ptree resp;
+  json_decode(resp_raw,&resp);
+
+  if (resp.get<int>("status") == 0) {
+    res = resp.get<string>("value");
+  }
+
+  return res;
 }

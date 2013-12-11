@@ -3,9 +3,11 @@
 #include "capabilities.h"
 #include "element.h"
 #include "json.h"
-
+#include <vector>
+#include <boost/foreach.hpp>
 
 using std::string;
+using std::vector;
 
 #define CSS_SELECTOR 0x01
 #define NAME_SELECTOR 0x02
@@ -21,6 +23,7 @@ class Session {
   	void forward();
   	void refresh();
   	Element* element(ElementQuery*);
+    std::vector<Element*> elements(ElementQuery*);
   	Element* activeElement();
   	void click(Element*);
   	void click(ElementQuery*);

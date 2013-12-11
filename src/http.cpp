@@ -17,7 +17,7 @@ http::http() {
   headers = NULL;
 }
 
-void destroy() {
+void http::destroy() {
  curl_easy_cleanup(ch);
 }
 

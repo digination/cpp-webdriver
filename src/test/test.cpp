@@ -13,6 +13,16 @@ int main(int argc,char** argv) {
   Session *sess = s->createSession(dcap);
   
   if (sess != NULL) {
+    
+     sess->url("http://www.google.com");
+     Element* conn_btn = sess->element(new ElementQuery(ElementQuery::STRAT_ID,"gb_70"));
+
+     std::cout << conn_btn->getCSS("background-color") << endl;
+       
+
+
+    /*
+
     sess->url("http://www.ig.com/fr/login");
 
     ElementQuery* q1 = new ElementQuery(ElementQuery::STRAT_ID,"account_id");
@@ -37,11 +47,14 @@ int main(int argc,char** argv) {
 
     sleep(10);
 
-    //* ############## Values Fetching  ##############*/
-    
-    ElementQuery *q4 = new ElementQuery(ElementQuery::STRAT_CLASS)
-    
+    //############## Values Fetching  ##############
 
+    vector<Element*> a_list = sess->elements(new ElementQuery(ElementQuery::STRAT_TAG_NAME,"a"));
+  
+    cout << "# Of Links:" << a_list.size() << endl; 
+
+    */
+    
 
 
 
