@@ -6,6 +6,7 @@ add_library(selenium++
             SHARED
             src/assoc.hpp
             src/http.cpp
+            src/restio.cpp
             src/selenium.cpp
             src/capabilities.cpp
             src/utils.cpp
@@ -42,6 +43,8 @@ install (FILES src/capabilities.hpp DESTINATION include/selenium)
 install (FILES src/element.hpp DESTINATION include/selenium)
 install (FILES src/json.hpp DESTINATION include/selenium)
 install (FILES src/http.hpp DESTINATION include/selenium)
+install (FILES src/restio.hpp DESTINATION include/selenium)
+
 install (FILES src/utils.hpp DESTINATION include/selenium)
 install (FILES src/assoc.hpp DESTINATION include/selenium)
 install (FILES src/globals.hpp DESTINATION include/selenium)

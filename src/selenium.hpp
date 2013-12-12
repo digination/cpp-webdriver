@@ -1,7 +1,7 @@
 #ifndef SELENIUM_H
 #define SELENIUM_H
 #include <string>
-#include "http.hpp"
+#include "restio.hpp"
 #include "utils.hpp"
 #include "capabilities.hpp"
 #include "session.hpp"
