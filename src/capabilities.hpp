@@ -1,7 +1,7 @@
 #ifndef CAPABILITIES_H
 #define CAPABILITIES_H
 #include <string>
-#include "utils.h"
+#include "utils.hpp"
 
 using std::string;
 

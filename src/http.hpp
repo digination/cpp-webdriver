@@ -4,7 +4,7 @@
 #include <curl/curl.h>
 #include <stdlib.h>
 #include <string>
-#include "assoc.h"
+#include "assoc.hpp"
 
 class http {
 

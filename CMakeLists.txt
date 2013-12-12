@@ -14,8 +14,15 @@ add_library(selenium++
             src/element.cpp
 )
 
-add_executable(test
-               src/test/test.cpp)
+add_executable(wdtests
+               tests/tests_wd.cpp
+               tests/tests_session.cpp
+               tests/tests_element.cpp
+
+)
+
+
+
 
 
 find_library (CURL curl)
@@ -26,7 +33,7 @@ target_link_libraries(
 )
 
 target_link_libraries(
-  test
+  wdtests
   selenium++
 )
 

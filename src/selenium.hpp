@@ -1,11 +1,11 @@
 #ifndef SELENIUM_H
 #define SELENIUM_H
 #include <string>
-#include "http.h"
-#include "utils.h"
-#include "capabilities.h"
-#include "session.h"
-#include "json.h"
+#include "http.hpp"
+#include "utils.hpp"
+#include "capabilities.hpp"
+#include "session.hpp"
+#include "json.hpp"
 class Selenium {
   private:
   	std::string selenium_url;

@@ -3,9 +3,9 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "http.h"
-#include "utils.h"
-#include "json.h"
+#include "http.hpp"
+#include "utils.hpp"
+#include "json.hpp"
 
 using std::string;
 

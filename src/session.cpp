@@ -1,5 +1,5 @@
-#include "session.h"
-#include "globals.h"
+#include "session.hpp"
+#include "globals.hpp"
 
 Session::Session() {
 

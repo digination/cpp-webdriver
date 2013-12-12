@@ -1,8 +1,8 @@
 #include <string>
-#include "http.h"
-#include "capabilities.h"
-#include "element.h"
-#include "json.h"
+#include "http.hpp"
+#include "capabilities.hpp"
+#include "element.hpp"
+#include "json.hpp"
 #include <vector>
 #include <boost/foreach.hpp>
 

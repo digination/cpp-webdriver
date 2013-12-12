@@ -1,4 +1,4 @@
-#include "capabilities.h"
+#include "capabilities.hpp"
 
 Capabilities::Capabilities() {
 
