@@ -47,7 +47,7 @@ Usage Example
 -------------
 
 ```C++
-#include "selenium.h"
+#include <selenium/selenium.hpp>
 #include <iostream>
 #include <vector>
 
@@ -55,7 +55,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-int main(int argc,char* argv) {
+int main(int argc,char** argv) {
 	
   //creates new selenium object with the selenium entry page as argument.
   Selenium* s = new Selenium("http://127.0.0.1:4444/wd/hub");
