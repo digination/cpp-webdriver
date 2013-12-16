@@ -8,97 +8,63 @@ Session::Session() {
 void Session::url(string url) {
 
   extern std::string seleniumURL;
-
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/url",  "{\"url\":\"" + url + "\"}");
-  h->destroy();
-
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/url",  "{\"url\":\"" + url + "\"}");
+  rio->destroy();
 }
-
 
 void Session::back() {
 
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/back","");
-  h->destroy();
-
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/back","");
+  rio->destroy();
 }
-
 
 void Session::forward() {
 
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/forward","");
-  h->destroy();
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/forward","");
+  rio->destroy();
 }
 
-
 void Session::refresh() {
-
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/refresh","");
-  h->destroy();
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/refresh","");
+  rio->destroy();
 }
 
 ptree Session::execute(string script,bool async) {
 
-  ptree result;
-  
   string pdata = "{\"script\": " + script + ",\"args\": []}";
-
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + ( (async) ? "/execute_async": "/execute" ) ,pdata);
-  h->destroy();
-
-  return result;
+  restio* rio = new restio();
+  ptree resp = rio->post(seleniumURL + "/session/" + id + ( (async) ? "/execute_async": "/execute" ) ,pdata);
+  rio->destroy();
+  return resp;
 
 }
 
 Element* Session::element(ElementQuery* eq) {
   
-  http* h = new http();
+  restio* rio = new restio();
   std::string pdata = eq->json_encode();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/element",pdata);
-  h->destroy();
+  ptree resp = rio->post(seleniumURL + "/session/" + id + "/element",pdata);
+  rio->destroy();
 
-  std::cout << resp_raw << std::endl;
-
-  ptree resp;
-  json_decode(resp_raw,&resp);
-
-  if (resp.get<int>("status") == 0 ) {
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
   else return NULL;
 }
 
-
 std::vector <Element*> Session::elements(ElementQuery* eq) {
   std::vector<Element*> result;
   std::string pdata = eq->json_encode();
 
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/elements",pdata);
-  h->destroy();
+  restio* rio = new restio();
+  ptree resp = rio->post(seleniumURL + "/session/" + id + "/elements",pdata);
+  rio->destroy();
 
-  ptree resp;
-  json_decode(resp_raw,&resp);
-
-  if (resp.get<int>("status") == 0 ) {
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
 
      BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
                    resp.get_child("value")) {
@@ -110,62 +76,47 @@ std::vector <Element*> Session::elements(ElementQuery* eq) {
 }
 
 Element* Session::activeElement() {
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/element/active","");
-  h->destroy();
+  restio* rio = new restio();
+  ptree resp = rio->post(seleniumURL + "/session/" + id + "/element/active","");
+  rio->destroy();
 
-  ptree resp;
-  json_decode(resp_raw,&resp);
-
-  if (resp.get<int>("status") == 0 ) {
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
   else return NULL;
 }
 
-
 //################ ALERTS MANAGEMENT FCTS ##################
 
 void Session::acceptAlert() {
-
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/accept_alert","");
-  h->destroy();
-
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/accept_alert","");
+  rio->destroy();
 }
 
 void Session::dismissAlert() {
 
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/dismiss_alert","");
-  h->destroy();
-
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/dismiss_alert","");
+  rio->destroy();
 }
 
 string Session::getAlertText() {
 
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->get(seleniumURL + "/session/" + id + "/alert_text");
-  h->destroy();
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + "/session/" + id + "/alert_text");
+  rio->destroy();
 
-  return resp_raw;
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+    return resp.get<string>("value");
+  }
+  return "nil";
 }
 
 void Session::sendKeysToAlert(string text) {
 
   string pdata = "{\"text\":\"" + text  + "\"}";
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + id + "/alert_text",pdata);
-  h->destroy();
-
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/alert_text",pdata);
+  rio->destroy();
 }

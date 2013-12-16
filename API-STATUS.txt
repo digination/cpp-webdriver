@@ -50,7 +50,7 @@ GET 	/session/:sessionId/element/:id/name 	NO
 POST 	/session/:sessionId/element/:id/clear 	NO
 GET 	/session/:sessionId/element/:id/selected 	NO
 GET 	/session/:sessionId/element/:id/enabled 	NO
-GET 	/session/:sessionId/element/:id/attribute/:name 	NO
+GET 	/session/:sessionId/element/:id/attribute/:name 	YES
 GET 	/session/:sessionId/element/:id/equals/:other 	NO
 GET 	/session/:sessionId/element/:id/displayed 	NO
 GET 	/session/:sessionId/element/:id/location 	NO

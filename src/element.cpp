@@ -37,17 +37,14 @@ void Element::click() {
 
   extern std::string seleniumURL;
 
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + 
+  restio* rio = new restio();
+  ptree resp = rio->post(seleniumURL + 
                                  "/session/" + 
                                  sessid + 
                                  "/element/" + 
                                  id + 
                                  "/click","");
-
-  std::cout << resp_raw << std::endl;
+  rio->destroy();
 
 }
 
@@ -56,19 +53,19 @@ string Element::getText() {
 
   extern std::string seleniumURL;
 
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->get(seleniumURL + 
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + 
                                 "/session/" + 
                                 sessid + 
                                 "/element/" + 
                                 id + 
                                 "/text");
+  rio->destroy();
 
-  std::cout << resp_raw << std::endl;
-
-  return "";
+  if (  resp.get<int>("status") == restio::statusmap["Success"] ) {
+    return resp.get<string>("value");
+  }
+  return "nil";
 }
 
 
@@ -94,15 +91,15 @@ void Element::sendKeys(string keys) {
   keys_array += "]";
   pdata = "{\"value\":" + keys_array  +  "}";
   std::cout << pdata << std::endl;
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + 
-                                "/session/" + 
-                                sessid + 
-                                "/element/" + 
-                                id + 
-                                "/value",pdata);
+  restio* rio = new restio();
+  
+  rio->post(seleniumURL + 
+            "/session/" + 
+            sessid + 
+            "/element/" + 
+            id + 
+            "/value",pdata);
+  rio->destroy();
 
 }
 
@@ -110,23 +107,16 @@ void Element::sendKeys(string keys) {
 Element* Element::element(ElementQuery* eq) {
 
   extern std::string seleniumURL;
-
-  http* h = new http();
   std::string pdata = eq->json_encode();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-  std::string resp_raw = h->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/element" ,pdata);
-  h->destroy();
 
-  std::cout << resp_raw << std::endl;
+  restio* rio = new restio();
+  ptree resp = rio->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/element" ,pdata);
+  rio->destroy();  
 
-  ptree resp;
-  json_decode(resp_raw,&resp);
-
-  if (resp.get<int>("status") == 0 ) {
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
-  else return NULL;
+  return NULL;
 
 }
 
@@ -136,24 +126,39 @@ std::string Element::getCSS(std::string property) {
   string res = "";
 
   extern std::string seleniumURL;
-  http* h = new http();
-  h->add_header("Content-Type: application/json;charset=UTF-8");
-  h->add_header("Accept: application/json");
-
-  std::string resp_raw = h->get(seleniumURL + 
+  restio* rio = new restio();
+  
+  ptree resp = rio->get(seleniumURL + 
                                 "/session/" + 
                                 sessid + 
                                 "/element/" + 
                                 id + 
                                 "/css/" + property);
-  h->destroy();
+  rio->destroy();
 
-  ptree resp;
-  json_decode(resp_raw,&resp);
-
-  if (resp.get<int>("status") == 0) {
-    res = resp.get<string>("value");
+  if (resp.get<int>("status") == restio::statusmap["Success"]) {
+    return resp.get<string>("value");
   }
 
-  return res;
+  return "nil";
+}
+
+
+std::string Element::getAttribute(std::string attr) {
+
+  extern std::string seleniumURL;
+  restio* rio = new restio();
+
+  ptree resp = rio->get(seleniumURL + 
+                                "/session/" + 
+                                sessid + 
+                                "/element/" + 
+                                id + 
+                                "/attribute/" + attr);
+  
+  rio->destroy();
+  if (resp.get<int>("status") == restio::statusmap["Success"]) {
+    return resp.get<string>("value");
+  }
+  return "nil";
 }

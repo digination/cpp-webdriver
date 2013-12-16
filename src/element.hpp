@@ -3,9 +3,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "http.hpp"
+#include "restio.hpp"
 #include "utils.hpp"
-#include "json.hpp"
 
 using std::string;
 
@@ -45,8 +44,7 @@ class Element {
     void sendKeys(std::string);
     string getText();
     string getCSS(std::string property);
-
-
+    string getAttribute(std::string attr);
 
 };
 

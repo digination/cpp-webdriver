@@ -1,3 +1,6 @@
+#ifndef RESTIO_HPP
+#define RESTIO_HPP
+
 #include "http.hpp"
 #include "json.hpp"
 
@@ -15,3 +18,4 @@ class restio: public http {
 
 };
 
+#endif
