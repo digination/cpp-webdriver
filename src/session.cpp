@@ -13,6 +13,7 @@ void Session::url(string url) {
   rio->destroy();
 }
 
+
 void Session::back() {
 
   restio* rio = new restio();
@@ -35,7 +36,7 @@ void Session::refresh() {
 
 ptree Session::execute(string script,bool async) {
 
-  string pdata = "{\"script\": " + script + ",\"args\": []}";
+  string pdata = "{\"script\":\"" + script + "\",\"args\": []}";
   restio* rio = new restio();
   ptree resp = rio->post(seleniumURL + "/session/" + id + ( (async) ? "/execute_async": "/execute" ) ,pdata);
   rio->destroy();
@@ -119,4 +120,17 @@ void Session::sendKeysToAlert(string text) {
   restio* rio = new restio();
   rio->post(seleniumURL + "/session/" + id + "/alert_text",pdata);
   rio->destroy();
+}
+
+string Session::getURL() {
+
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + "/session/" + id + "/url");
+  rio->destroy();
+
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+    return resp.get<string>("value");
+  }
+  return "nil";
+
 }

@@ -24,7 +24,6 @@ class Session {
   	void click(Element*);
   	void click(ElementQuery*);
   	void click(string);
-    string getURL(); 
     ptree execute(string,bool);
 
     /* Alerts/Notices Management */
@@ -32,6 +31,9 @@ class Session {
     void dismissAlert();
     string getAlertText();
     void sendKeysToAlert(string);
+
+    string getURL(); 
+
 
 };
 
