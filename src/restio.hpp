@@ -3,6 +3,8 @@
 
 #include "http.hpp"
 #include "json.hpp"
+#include <stdint.h>
+
 
 class restio: public http {
 

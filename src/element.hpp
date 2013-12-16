@@ -5,6 +5,7 @@
 #include <vector>
 #include "restio.hpp"
 #include "utils.hpp"
+#include <boost/foreach.hpp>
 
 using std::string;
 
@@ -39,6 +40,7 @@ class Element {
   	Element(string,string);
     void click();
     Element* element(ElementQuery*);
+    std::vector<Element*> elements(ElementQuery* eq); 
     void sendKey(int keynum);
     void sendKeys(std::vector<int>);
     void sendKeys(std::string);

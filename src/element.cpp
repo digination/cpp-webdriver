@@ -62,8 +62,11 @@ string Element::getText() {
                                 "/text");
   rio->destroy();
 
-  if (  resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return resp.get<string>("value");
+  if (resp.count("status") > 0) {
+
+    if (  resp.get<int>("status") == restio::statusmap["Success"] ) {
+      return resp.get<string>("value");
+    }
   }
   return "nil";
 }
@@ -120,6 +123,32 @@ Element* Element::element(ElementQuery* eq) {
 
 }
 
+
+
+std::vector<Element*> Element::elements(ElementQuery* eq) {
+
+  std::vector<Element*> result;
+
+  extern std::string seleniumURL;
+  std::string pdata = eq->json_encode();
+
+  restio* rio = new restio();
+  ptree resp = rio->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/elements" ,pdata);
+  rio->destroy();  
+
+  if (resp.count("status") > 0) {
+
+    if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+
+       BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
+                     resp.get_child("value")) {
+         const ptree& child = v.second;
+         result.push_back(new Element(id,child.get<string>("ELEMENT")));
+       }
+    }
+  }
+  return result;
+}
 
 std::string Element::getCSS(std::string property) {
 

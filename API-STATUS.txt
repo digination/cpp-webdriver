@@ -40,7 +40,7 @@ POST 	/session/:sessionId/elements 	YES
 POST 	/session/:sessionId/element/active 	YES
 GET 	/session/:sessionId/element/:id 	NO
 POST 	/session/:sessionId/element/:id/element 	YES
-POST 	/session/:sessionId/element/:id/elements 	NO
+POST 	/session/:sessionId/element/:id/elements 	YES
 POST 	/session/:sessionId/element/:id/click 	YES
 POST 	/session/:sessionId/element/:id/submit 	NO
 GET 	/session/:sessionId/element/:id/text 	YES
