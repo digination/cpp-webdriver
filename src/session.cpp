@@ -36,7 +36,7 @@ void Session::refresh() {
 
 ptree Session::execute(string script,bool async) {
 
-  string pdata = "{\"script\":\"" + script + "\",\"args\": []}";
+  string pdata = "{\"script\":\"" + json_escape(script) + "\",\"args\": []}";
   restio* rio = new restio();
   ptree resp = rio->post(seleniumURL + "/session/" + id + ( (async) ? "/execute_async": "/execute" ) ,pdata);
   rio->destroy();
