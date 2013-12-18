@@ -10,7 +10,7 @@ class Selenium {
   private:
   	std::string selenium_url;
   public:
-  	Selenium(std::string);
+  	Selenium(std::string,bool);
     Session* createSession(Capabilities* desiredCapabilities);
 
 };

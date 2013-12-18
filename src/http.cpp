@@ -37,7 +37,6 @@ std::string http::get(std::string url) {
   curl_easy_perform(ch);
 
   return wdata;
-
 }
 
 

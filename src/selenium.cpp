@@ -1,12 +1,14 @@
 #include "selenium.hpp"
 
-Selenium::Selenium(std::string surl) {
+Selenium::Selenium(std::string surl,bool dbg) {
 
   extern std::string seleniumURL; 
+  extern bool debug;
 
   selenium_url = surl;
   seleniumURL = surl;
-
+  debug = dbg;
+  
   restio* rio  = new restio();
   rio->get(selenium_url + "/status");
   

@@ -51,7 +51,14 @@ ptree restio::post(std::string url,std::string pdata) {
 }
 
 ptree restio::parse_answer(std::string ans) {
+
+  extern bool debug;
+
   ptree result;
+  if (debug) {
+    cout << ans << endl;
+  }
+
   if (ans != "") {
     json_decode(ans,&result);
     /*
