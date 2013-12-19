@@ -52,23 +52,23 @@ void Element::click() {
 string Element::getText() {
 
   extern std::string seleniumURL;
-
   restio* rio = new restio();
+  
+  //cout << "TEXT_URL:" << seleniumURL + "/session/" + sessid + "/element/" + id + "/text" <<endl;
+
   ptree resp = rio->get(seleniumURL + 
                                 "/session/" + 
                                 sessid + 
                                 "/element/" + 
                                 id + 
                                 "/text");
+  
   rio->destroy();
-
-  if (resp.count("status") > 0) {
-
-    if (  resp.get<int>("status") == restio::statusmap["Success"] ) {
-      return resp.get<string>("value");
-    }
+  
+  if (  resp.get<int>("status") == restio::statusmap["Success"] ) {
+    return resp.get<string>("value");
   }
-  return "nil";
+  return "";
 }
 
 
@@ -117,7 +117,7 @@ Element* Element::element(ElementQuery* eq) {
   rio->destroy();  
 
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return new Element(id, resp.get<string>("value.ELEMENT") );
+    return new Element(sessid,resp.get<string>("value.ELEMENT") );
   }
   return NULL;
 
@@ -143,7 +143,7 @@ std::vector<Element*> Element::elements(ElementQuery* eq) {
        BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
                      resp.get_child("value")) {
          const ptree& child = v.second;
-         result.push_back(new Element(id,child.get<string>("ELEMENT")));
+         result.push_back(new Element(sessid,child.get<string>("ELEMENT")));
        }
     }
   }
