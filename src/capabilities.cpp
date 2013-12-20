@@ -5,6 +5,7 @@ Capabilities::Capabilities() {
   browserName = "firefox";
   version = "";
   platform = "";
+  extra_json = "";
   javascriptEnabled = true;
   takesScreenshot = false;
   handlesAlerts = false;
@@ -44,6 +45,8 @@ string Capabilities::json_encode() {
   ret += "\t\"rotatable\":" + bool2string(rotatable) + ",\n";
   ret += "\t\"acceptSslCerts\":" + bool2string(acceptSslCerts) + ",\n";
   ret += "\t\"nativeEvents\":" + bool2string(nativeEvents) + "\n";
+  
+  ret += extra_json;
   ret +="}";
 
   return ret;

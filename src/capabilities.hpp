@@ -12,6 +12,7 @@ class Capabilities {
   	string browserName;
     string version;
     string platform;
+    string extra_json;
   	bool javascriptEnabled;
   	bool takesScreenshot; 
   	bool handlesAlerts; 
