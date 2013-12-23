@@ -25,8 +25,9 @@ class Session {
   	void click(ElementQuery*);
   	void click(string);
     string getURL(); 
+    string getScreenshot();
     ptree execute(string,bool);
-
+    
     /* Alerts/Notices Management */
     void acceptAlert();
     void dismissAlert();

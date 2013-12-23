@@ -132,5 +132,15 @@ string Session::getURL() {
     return resp.get<string>("value");
   }
   return "nil";
+}
 
+string Session::getScreenshot() {
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + "/session/" + id + "/screenshot");
+  rio->destroy();
+  
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+    return resp.get<string>("value");
+  }
+  return "nil";
 }

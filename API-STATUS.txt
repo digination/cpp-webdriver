@@ -15,7 +15,7 @@ POST 	/session/:sessionId/back 	YES
 POST 	/session/:sessionId/refresh 	YES
 POST 	/session/:sessionId/execute 	PARTIAL (no args support)
 POST 	/session/:sessionId/execute_async 	PARTIAL (no args support)
-GET 	/session/:sessionId/screenshot 	NO
+GET 	/session/:sessionId/screenshot 	YES
 GET 	/session/:sessionId/ime/available_engines 	NO
 GET 	/session/:sessionId/ime/active_engine 	NO
 GET 	/session/:sessionId/ime/activated 	NO
