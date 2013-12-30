@@ -13,6 +13,7 @@ add_library(selenium++
             src/json.cpp
             src/session.cpp
             src/element.cpp
+            src/log.cpp
 )
 
 #add_executable(wdtests

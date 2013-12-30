@@ -85,6 +85,6 @@ DELETE 	/session/:sessionId/session_storage 	NO
 GET 	/session/:sessionId/session_storage/key/:key 	NO
 DELETE 	/session/:sessionId/session_storage/key/:key 	NO
 GET 	/session/:sessionId/session_storage/size 	NO
-POST 	/session/:sessionId/log 	NO
+POST 	/session/:sessionId/log 	YES
 GET 	/session/:sessionId/log/types 	NO
 GET 	/session/:sessionId/application_cache/status 	NO

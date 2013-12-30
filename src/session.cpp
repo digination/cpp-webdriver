@@ -144,3 +144,27 @@ string Session::getScreenshot() {
   }
   return "nil";
 }
+
+std::vector<Log*> Session::getLogs(string logtype) {
+  std::vector<Log*> result;
+  std::string pdata = "{\"type\":\"" + logtype + "\"}"; 
+  restio* rio = new restio();
+  ptree resp = rio->post(seleniumURL + "/session/" + id + "/log",pdata);
+  rio->destroy();
+
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+
+     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
+                   resp.get_child("value")) {
+
+       const ptree& child = v.second;
+
+       Log* l = new Log();
+       l->timestamp =  atoi(child.get<std::string>("timestamp").c_str());
+       l->level = child.get<std::string>("level");
+       l->message = child.get<std::string>("message");
+       result.push_back(l);
+     }
+  }
+  return result;
+}

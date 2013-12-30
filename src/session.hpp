@@ -3,6 +3,7 @@
 #include "capabilities.hpp"
 #include "element.hpp"
 #include "json.hpp"
+#include "log.hpp"
 #include <vector>
 #include <boost/foreach.hpp>
 
@@ -26,6 +27,8 @@ class Session {
   	void click(string);
     string getURL(); 
     string getScreenshot();
+    std::vector<Log*> getLogs(string);
+
     ptree execute(string,bool);
     
     /* Alerts/Notices Management */
