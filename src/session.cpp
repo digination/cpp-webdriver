@@ -168,3 +168,16 @@ std::vector<Log*> Session::getLogs(string logtype) {
   }
   return result;
 }
+
+
+std::string Session::getSource() {
+
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + "/session/" + id + "/source");
+  rio->destroy();
+  
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+    return resp.get<string>("value");
+  }
+  return "nil";
+}

@@ -28,6 +28,7 @@ class Session {
     string getURL(); 
     string getScreenshot();
     std::vector<Log*> getLogs(string);
+    string getSource();
 
     ptree execute(string,bool);
     

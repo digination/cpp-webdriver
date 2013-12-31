@@ -48,6 +48,9 @@ class Element {
     string getCSS(std::string property);
     string getAttribute(std::string attr);
 
+    string getName();
+    
+
 };
 
 #endif

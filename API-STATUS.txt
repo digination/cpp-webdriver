@@ -33,7 +33,7 @@ GET 	/session/:sessionId/cookie 	NO
 POST 	/session/:sessionId/cookie 	NO
 DELETE 	/session/:sessionId/cookie 	NO
 DELETE 	/session/:sessionId/cookie/:name 	NO
-GET 	/session/:sessionId/source 	NO
+GET 	/session/:sessionId/source 	YES
 GET 	/session/:sessionId/title 	YES
 POST 	/session/:sessionId/element 	YES
 POST 	/session/:sessionId/elements 	YES
