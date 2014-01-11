@@ -49,4 +49,5 @@ install (FILES src/restio.hpp DESTINATION include/selenium)
 install (FILES src/utils.hpp DESTINATION include/selenium)
 install (FILES src/assoc.hpp DESTINATION include/selenium)
 install (FILES src/globals.hpp DESTINATION include/selenium)
+install (FILES src/logs.hpp DESTINATION include/selenium)
 
