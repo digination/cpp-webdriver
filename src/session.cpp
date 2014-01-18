@@ -87,6 +87,77 @@ Element* Session::activeElement() {
   else return NULL;
 }
 
+
+//################ WINDOW MANAGEMENT FCTS ##################
+
+std::string Session::getWindowHandle() {
+  /* Retrieves the handle of the current window */
+
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + "/session/" + id + "/window_handle");
+  rio->destroy();
+
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+    return resp.get<string>("value");
+  }
+
+}
+
+void Session::windowSize(string handle,int width,int height) {
+  /* Sets the size of the window identified by handle */
+
+  restio* rio = new restio();
+  std::string pdata = "{\"width\":" + int2string(width)   + ",";
+  pdata += "\"height\":" + int2string(height) + "}";
+
+  ptree resp = rio->post(seleniumURL + "/session/" + id + "/window/" + handle + "/size",pdata);
+  
+}
+
+
+//################ COOKIES MANAGEMENT FCTS #################
+
+void Session::cookie(Cookie* miam) {
+  /* Sends a Cookie to the current selenium session */
+
+  std::string pdata = miam->json_encode();
+
+  restio* rio = new restio();
+  rio->post(seleniumURL + "/session/" + id + "/cookie",pdata);
+  rio->destroy();
+
+}
+
+void Session::deleteCookie(string cookie_name) {
+  /* Deletes a Cookie from the selenium instance */
+
+  restio* rio = new restio();
+  rio->del(seleniumURL + "/session/" + id + "/cookie/" + cookie_name);
+  rio->destroy();
+}
+
+std::vector <Cookie*> Session::getCookies() {
+  /* Retrives all the cookies for the current selenium instance */
+  
+  std::vector <Cookie*> result;
+
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + "/session/" + id + "/cookie");
+  rio->destroy();
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+
+     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
+                   resp.get_child("value")) {
+       const ptree& child = v.second;
+       Cookie* c = new Cookie("foo","bar");
+       result.push_back(c);
+     }
+  }
+
+  return result;
+
+}
+
 //################ ALERTS MANAGEMENT FCTS ##################
 
 void Session::acceptAlert() {

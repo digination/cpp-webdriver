@@ -45,10 +45,15 @@ ptree restio::get(std::string url) {
 }
 
 ptree restio::post(std::string url,std::string pdata) {
-  ptree result;
   std::string ans = http::post(url,pdata);
   return parse_answer(ans);
 }
+
+ptree restio::del(std::string url) {
+  std::string ans = http::del(url);
+  return parse_answer(ans);
+}
+
 
 ptree restio::parse_answer(std::string ans) {
 

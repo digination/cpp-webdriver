@@ -29,9 +29,9 @@ GET 	/session/:sessionId/window/:windowHandle/size 	NO
 POST 	/session/:sessionId/window/:windowHandle/position 	NO
 GET 	/session/:sessionId/window/:windowHandle/position 	NO
 POST 	/session/:sessionId/window/:windowHandle/maximize 	NO
-GET 	/session/:sessionId/cookie 	NO
-POST 	/session/:sessionId/cookie 	NO
-DELETE 	/session/:sessionId/cookie 	NO
+GET 	/session/:sessionId/cookie 	YES
+POST 	/session/:sessionId/cookie 	YES
+DELETE 	/session/:sessionId/cookie 	YES
 DELETE 	/session/:sessionId/cookie/:name 	NO
 GET 	/session/:sessionId/source 	YES
 GET 	/session/:sessionId/title 	YES

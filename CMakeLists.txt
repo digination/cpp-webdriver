@@ -14,6 +14,7 @@ add_library(selenium++
             src/session.cpp
             src/element.cpp
             src/log.cpp
+            src/cookie.cpp
 )
 
 #add_executable(wdtests
@@ -49,5 +50,5 @@ install (FILES src/restio.hpp DESTINATION include/selenium)
 install (FILES src/utils.hpp DESTINATION include/selenium)
 install (FILES src/assoc.hpp DESTINATION include/selenium)
 install (FILES src/globals.hpp DESTINATION include/selenium)
-install (FILES src/logs.hpp DESTINATION include/selenium)
+install (FILES src/log.hpp DESTINATION include/selenium)
 
