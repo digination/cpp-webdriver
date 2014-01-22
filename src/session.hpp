@@ -31,6 +31,7 @@ class Session {
     string getURL(); 
     string getScreenshot();
     string getWindowHandle();
+    int* getWindowSize(string);
     std::vector<Log*> getLogs(string);
     string getSource();
 

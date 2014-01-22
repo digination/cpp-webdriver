@@ -103,6 +103,17 @@ std::string Session::getWindowHandle() {
 
 }
 
+int* Session::getWindowSize(string handle) {
+  /* gets the size of the window identified by handle */
+
+  int* size = (int*) malloc(2*sizeof(int));
+
+  restio* rio = new restio();
+  ptree resp = rio->get(seleniumURL + "/session/" + id + "/window/" + handle + "/size");
+  return size;
+
+}
+
 void Session::windowSize(string handle,int width,int height) {
   /* Sets the size of the window identified by handle */
 

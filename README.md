@@ -15,7 +15,7 @@ Dependancies
 Status
 ------
 
-* API: 25% (see API-STATUS.txt)
+* API: 50% (see API-STATUS.txt)
 
 * Doc: 0%
 

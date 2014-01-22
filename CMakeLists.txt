@@ -51,4 +51,6 @@ install (FILES src/utils.hpp DESTINATION include/selenium)
 install (FILES src/assoc.hpp DESTINATION include/selenium)
 install (FILES src/globals.hpp DESTINATION include/selenium)
 install (FILES src/log.hpp DESTINATION include/selenium)
+install (FILES src/cookie.hpp DESTINATION include/selenium)
+
 

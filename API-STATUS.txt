@@ -6,7 +6,7 @@ DELETE 	/session/:sessionId 	NO
 POST 	/session/:sessionId/timeouts 	NO
 POST 	/session/:sessionId/timeouts/async_script 	NO
 POST 	/session/:sessionId/timeouts/implicit_wait 	NO
-GET 	/session/:sessionId/window_handle 	NO
+GET 	/session/:sessionId/window_handle 	YES
 GET 	/session/:sessionId/window_handles 	NO
 GET 	/session/:sessionId/url 	YES
 POST 	/session/:sessionId/url 	YES
@@ -24,7 +24,7 @@ POST 	/session/:sessionId/ime/activate 	NO
 POST 	/session/:sessionId/frame 	NO
 POST 	/session/:sessionId/window 	NO
 DELETE 	/session/:sessionId/window 	NO
-POST 	/session/:sessionId/window/:windowHandle/size 	NO
+POST 	/session/:sessionId/window/:windowHandle/size 	YES
 GET 	/session/:sessionId/window/:windowHandle/size 	NO
 POST 	/session/:sessionId/window/:windowHandle/position 	NO
 GET 	/session/:sessionId/window/:windowHandle/position 	NO
