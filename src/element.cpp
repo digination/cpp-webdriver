@@ -9,6 +9,10 @@ string ElementQuery::STRAT_PARTIAL_LINK_TEXT = "partial link text";
 string ElementQuery::STRAT_TAG_NAME = "tag name";
 string ElementQuery::STRAT_XPATH = "xpath";
 
+
+WebdriverElementException wee;
+
+
 ElementQuery::ElementQuery(string istrat,string ivalue) {
   strat = istrat;
   value = ivalue;
@@ -68,7 +72,8 @@ string Element::getText() {
   if (  resp.get<int>("status") == restio::statusmap["Success"] ) {
     return resp.get<string>("value");
   }
-  return "";
+  else throw wee;
+
 }
 
 
@@ -119,8 +124,8 @@ Element* Element::element(ElementQuery* eq) {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return new Element(sessid,resp.get<string>("value.ELEMENT") );
   }
-  return NULL;
-
+  else throw wee;
+  
 }
 
 
@@ -136,18 +141,17 @@ std::vector<Element*> Element::elements(ElementQuery* eq) {
   ptree resp = rio->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/elements" ,pdata);
   rio->destroy();  
 
-  if (resp.count("status") > 0) {
-
-    if (resp.get<int>("status") == restio::statusmap["Success"] ) {
+  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
 
        BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
                      resp.get_child("value")) {
          const ptree& child = v.second;
          result.push_back(new Element(sessid,child.get<string>("ELEMENT")));
        }
-    }
   }
+  else throw wee;
   return result;
+
 }
 
 std::string Element::getCSS(std::string property) {
@@ -168,10 +172,8 @@ std::string Element::getCSS(std::string property) {
   if (resp.get<int>("status") == restio::statusmap["Success"]) {
     return resp.get<string>("value");
   }
-
-  return "nil";
+  else throw wee;
 }
-
 
 std::string Element::getAttribute(std::string attr) {
 
@@ -189,5 +191,5 @@ std::string Element::getAttribute(std::string attr) {
   if (resp.get<int>("status") == restio::statusmap["Success"]) {
     return resp.get<string>("value");
   }
-  return "nil";
+  else throw wee;
 }

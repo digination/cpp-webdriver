@@ -1,6 +1,8 @@
 #include "session.hpp"
 #include "globals.hpp"
 
+WebdriverSessionException wse;
+
 Session::Session() {
 
 }
@@ -54,7 +56,7 @@ Element* Session::element(ElementQuery* eq) {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
-  else return NULL;
+  else throw wse;
 }
 
 std::vector <Element*> Session::elements(ElementQuery* eq) {
@@ -73,6 +75,7 @@ std::vector <Element*> Session::elements(ElementQuery* eq) {
        result.push_back(new Element(id,child.get<string>("ELEMENT")));
      }
   }
+  else throw wse;
   return result;
 }
 
@@ -84,7 +87,7 @@ Element* Session::activeElement() {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return new Element(id, resp.get<string>("value.ELEMENT") );
   }
-  else return NULL;
+  else throw wse;
 }
 
 
@@ -100,6 +103,7 @@ std::string Session::getWindowHandle() {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return resp.get<string>("value");
   }
+  else throw wse;
 
 }
 
@@ -164,7 +168,7 @@ std::vector <Cookie*> Session::getCookies() {
        result.push_back(c);
      }
   }
-
+  else throw wse;
   return result;
 
 }
@@ -193,7 +197,7 @@ string Session::getAlertText() {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return resp.get<string>("value");
   }
-  return "nil";
+  else throw wse;
 }
 
 void Session::sendKeysToAlert(string text) {
@@ -213,7 +217,7 @@ string Session::getURL() {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return resp.get<string>("value");
   }
-  return "nil";
+  else throw wse;
 }
 
 string Session::getScreenshot() {
@@ -224,7 +228,7 @@ string Session::getScreenshot() {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return resp.get<string>("value");
   }
-  return "nil";
+  else throw wse;
 }
 
 std::vector<Log*> Session::getLogs(string logtype) {
@@ -248,6 +252,7 @@ std::vector<Log*> Session::getLogs(string logtype) {
        result.push_back(l);
      }
   }
+  else throw wse;
   return result;
 }
 
@@ -261,5 +266,5 @@ std::string Session::getSource() {
   if (resp.get<int>("status") == restio::statusmap["Success"] ) {
     return resp.get<string>("value");
   }
-  return "nil";
+  else throw wse;
 }
