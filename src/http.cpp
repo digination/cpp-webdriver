@@ -3,7 +3,7 @@
 size_t curl_writehandle(void *ptr,
 	                    size_t size,
 	                    size_t nmemb,
-	                    std::string stream)
+	                    std::string& stream)
 {
     if (ptr != NULL) {
       std::string temp(static_cast<const char*>(ptr), size * nmemb);
