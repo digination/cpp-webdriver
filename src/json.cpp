@@ -2,13 +2,13 @@
 
 using namespace std;
 
-void json_decode(string s,ptree* p) {
+ptree json_decode(string s) {
+
+  ptree p;
+
   std::istringstream ss (s);
   try {
-    if (p) read_json (ss,*p);
-    else {
-      cerr << "*CRITICAL: INVALID PTREE PTR*" << endl;
-    }
+    read_json (ss,p);
   }
   catch (exception e) {
     cerr << "*CRITICAL: CANNOT PARSE/MALFORMED JSON '" << s << "'" << endl;

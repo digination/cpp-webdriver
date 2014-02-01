@@ -9,7 +9,7 @@ using boost::property_tree::read_json;
 using boost::property_tree::write_json;
 using std::string;
 
-void json_decode(string,ptree*);
+ptree json_decode(string);
 std::string json_escape(const std::string& input);
 
 #endif

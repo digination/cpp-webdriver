@@ -58,23 +58,13 @@ ptree restio::del(std::string url) {
 ptree restio::parse_answer(std::string ans) {
 
   extern bool debug;
-
   ptree result;
   if (debug) {
     cout << ans << endl;
   }
 
   if (ans != "") {
-    json_decode(ans,&result);
-    /*
-    if (result.count("value") > 0 ) {
-      return result.get_child("value");
-    }
-
-    if (result.count("status") > 0 ) {
-      return result.get_child("status"); 
-    }
-    */
+    result = json_decode(ans);
   }
   return result;
 }
