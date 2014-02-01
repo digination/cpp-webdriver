@@ -4,15 +4,16 @@ using namespace std;
 
 ptree json_decode(string s) {
 
-  ptree p;
+  ptree* p = new ptree();
 
   std::istringstream ss (s);
   try {
-    read_json (ss,p);
+    read_json (ss,*p);
   }
   catch (exception e) {
     cerr << "*CRITICAL: CANNOT PARSE/MALFORMED JSON '" << s << "'" << endl;
   }
+  return *p;
 }
 
 std::string json_escape(const std::string& input) {
