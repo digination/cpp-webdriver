@@ -1,8 +1,18 @@
 #include "json.hpp"
 
+using namespace std;
+
 void json_decode(string s,ptree* p) {
   std::istringstream ss (s);
-  read_json (ss,*p);
+  try {
+    if (p) read_json (ss,*p);
+    else {
+      cerr << "*CRITICAL: INVALID PTREE PTR*" << endl;
+    }
+  }
+  catch (exception e) {
+    cerr << "*CRITICAL: CANNOT PARSE/MALFORMED JSON '" << s << "'" << endl;
+  }
 }
 
 std::string json_escape(const std::string& input) {
