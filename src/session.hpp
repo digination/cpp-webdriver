@@ -2,11 +2,9 @@
 #include "restio.hpp"
 #include "capabilities.hpp"
 #include "element.hpp"
-#include "json.hpp"
 #include "log.hpp"
 #include "cookie.hpp"
 #include <vector>
-#include <boost/foreach.hpp>
 
 using std::string;
 using std::vector;
@@ -39,7 +37,7 @@ class Session {
     void cookie(Cookie*);
     void deleteCookie(string);
 
-    ptree execute(string,bool);
+    seleniumAnswer* execute(string,bool);
 
     /* Alerts/Notices Management */
     void acceptAlert();

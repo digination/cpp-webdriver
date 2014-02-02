@@ -5,7 +5,6 @@
 #include "utils.hpp"
 #include "capabilities.hpp"
 #include "session.hpp"
-#include "json.hpp"
 class Selenium {
   private:
   	std::string selenium_url;

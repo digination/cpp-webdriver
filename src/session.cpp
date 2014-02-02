@@ -36,13 +36,13 @@ void Session::refresh() {
   rio->destroy();
 }
 
-ptree Session::execute(string script,bool async) {
+seleniumAnswer* Session::execute(string script,bool async) {
 
   string pdata = "{\"script\":\"" + json_escape(script) + "\",\"args\": []}";
   restio* rio = new restio();
-  ptree resp = rio->post(seleniumURL + "/session/" + id + ( (async) ? "/execute_async": "/execute" ) ,pdata);
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + ( (async) ? "/execute_async": "/execute" ) ,pdata);
   rio->destroy();
-  return resp;
+  return ans;
 
 }
 
@@ -50,11 +50,11 @@ Element* Session::element(ElementQuery* eq) {
   
   restio* rio = new restio();
   std::string pdata = eq->json_encode();
-  ptree resp = rio->post(seleniumURL + "/session/" + id + "/element",pdata);
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/element",pdata);
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return new Element(id, resp.get<string>("value.ELEMENT") );
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getElement(id);
   }
   else throw wse;
 }
@@ -64,16 +64,11 @@ std::vector <Element*> Session::elements(ElementQuery* eq) {
   std::string pdata = eq->json_encode();
 
   restio* rio = new restio();
-  ptree resp = rio->post(seleniumURL + "/session/" + id + "/elements",pdata);
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/elements",pdata);
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-
-     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
-                   resp.get_child("value")) {
-       const ptree& child = v.second;
-       result.push_back(new Element(id,child.get<string>("ELEMENT")));
-     }
+  if (ans->status == restio::statusmap["Success"] ) {
+     result = ans->getElements(id);
   }
   else throw wse;
   return result;
@@ -81,11 +76,11 @@ std::vector <Element*> Session::elements(ElementQuery* eq) {
 
 Element* Session::activeElement() {
   restio* rio = new restio();
-  ptree resp = rio->post(seleniumURL + "/session/" + id + "/element/active","");
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/element/active","");
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return new Element(id, resp.get<string>("value.ELEMENT") );
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getElement(id);
   }
   else throw wse;
 }
@@ -97,11 +92,11 @@ std::string Session::getWindowHandle() {
   /* Retrieves the handle of the current window */
 
   restio* rio = new restio();
-  ptree resp = rio->get(seleniumURL + "/session/" + id + "/window_handle");
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/window_handle");
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return resp.get<string>("value");
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getString();
   }
   else throw wse;
 
@@ -113,7 +108,7 @@ int* Session::getWindowSize(string handle) {
   int* size = (int*) malloc(2*sizeof(int));
 
   restio* rio = new restio();
-  ptree resp = rio->get(seleniumURL + "/session/" + id + "/window/" + handle + "/size");
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/window/" + handle + "/size");
   return size;
 
 }
@@ -125,7 +120,7 @@ void Session::windowSize(string handle,int width,int height) {
   std::string pdata = "{\"width\":" + int2string(width)   + ",";
   pdata += "\"height\":" + int2string(height) + "}";
 
-  ptree resp = rio->post(seleniumURL + "/session/" + id + "/window/" + handle + "/size",pdata);
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/window/" + handle + "/size",pdata);
   
 }
 
@@ -157,16 +152,10 @@ std::vector <Cookie*> Session::getCookies() {
   std::vector <Cookie*> result;
 
   restio* rio = new restio();
-  ptree resp = rio->get(seleniumURL + "/session/" + id + "/cookie");
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/cookie");
   rio->destroy();
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-
-     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
-                   resp.get_child("value")) {
-       const ptree& child = v.second;
-       Cookie* c = new Cookie("foo","bar");
-       result.push_back(c);
-     }
+  if (ans->status == restio::statusmap["Success"] ) {
+    result = ans->getCookies();
   }
   else throw wse;
   return result;
@@ -191,11 +180,11 @@ void Session::dismissAlert() {
 string Session::getAlertText() {
 
   restio* rio = new restio();
-  ptree resp = rio->get(seleniumURL + "/session/" + id + "/alert_text");
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/alert_text");
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return resp.get<string>("value");
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getString();
   }
   else throw wse;
 }
@@ -211,22 +200,22 @@ void Session::sendKeysToAlert(string text) {
 string Session::getURL() {
 
   restio* rio = new restio();
-  ptree resp = rio->get(seleniumURL + "/session/" + id + "/url");
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/url");
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return resp.get<string>("value");
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getString();
   }
   else throw wse;
 }
 
 string Session::getScreenshot() {
   restio* rio = new restio();
-  ptree resp = rio->get(seleniumURL + "/session/" + id + "/screenshot");
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/screenshot");
   rio->destroy();
   
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return resp.get<string>("value");
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getString();
   }
   else throw wse;
 }
@@ -235,22 +224,11 @@ std::vector<Log*> Session::getLogs(string logtype) {
   std::vector<Log*> result;
   std::string pdata = "{\"type\":\"" + logtype + "\"}"; 
   restio* rio = new restio();
-  ptree resp = rio->post(seleniumURL + "/session/" + id + "/log",pdata);
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/log",pdata);
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-
-     BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
-                   resp.get_child("value")) {
-
-       const ptree& child = v.second;
-
-       Log* l = new Log();
-       l->timestamp =  atoi(child.get<std::string>("timestamp").c_str());
-       l->level = child.get<std::string>("level");
-       l->message = child.get<std::string>("message");
-       result.push_back(l);
-     }
+  if (ans->status == restio::statusmap["Success"] ) {
+    result = ans->getLogs();
   }
   else throw wse;
   return result;
@@ -260,11 +238,11 @@ std::vector<Log*> Session::getLogs(string logtype) {
 std::string Session::getSource() {
 
   restio* rio = new restio();
-  ptree resp = rio->get(seleniumURL + "/session/" + id + "/source");
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/source");
   rio->destroy();
   
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return resp.get<string>("value");
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getString();
   }
   else throw wse;
 }

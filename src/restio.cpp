@@ -39,32 +39,59 @@ restio::restio() {
   add_header("Accept: application/json");
 }
 
-ptree restio::get(std::string url) {
+seleniumAnswer* restio::get(std::string url) {
   std::string ans = http::get(url);
   return parse_answer(ans);
 }
 
-ptree restio::post(std::string url,std::string pdata) {
+seleniumAnswer* restio::post(std::string url,std::string pdata) {
   std::string ans = http::post(url,pdata);
   return parse_answer(ans);
 }
 
-ptree restio::del(std::string url) {
+seleniumAnswer* restio::del(std::string url) {
   std::string ans = http::del(url);
   return parse_answer(ans);
 }
 
 
-ptree restio::parse_answer(std::string ans) {
+seleniumAnswer* restio::parse_answer(std::string ans) {
 
   extern bool debug;
-  ptree result;
+  seleniumAnswer* result = new seleniumAnswer();
+
   if (debug) {
     cout << ans << endl;
   }
 
-  if (ans != "") {
-    result = json_decode(ans);
+  Document document;
+  document.Parse<0>(ans.c_str());
+
+  if (document.IsObject()) {
+
+    if (document.HasMember("status")) {
+      result->status = document["status"].GetInt();
+    }
+    if (document.HasMember("sessionId") ) {
+      if (document["sessionId"].IsString()) {
+        result->sessionId = document["sessionId"].GetString();
+      }
+    }
+
+    if (document.HasMember("value")) {
+      if (document["value"].IsString()) {
+        result->value = document["value"].GetString();
+      }
+      else if (document["value"].IsObject() || document["value"].IsArray() ) {
+        result->value_object = document["value"];
+      }
+
+
+    }
+  }
+  else {
+    result->status =0;
+    result->value = ans;
   }
   return result;
 }

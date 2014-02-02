@@ -6,7 +6,7 @@ cpp-webdriver is a C++ binding for the Selenium REST API.
 Dependancies
 ------------
 
-* boost 1.4+
+* rapidjson ( http://code.google.com/p/rapidjson/)
 
 * libcurl4-openssl
 

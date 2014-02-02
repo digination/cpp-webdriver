@@ -3,9 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "restio.hpp"
 #include "utils.hpp"
-#include <boost/foreach.hpp>
 #include "exceptions.hpp"
 
 using std::string;

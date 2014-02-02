@@ -1,4 +1,5 @@
 #include "element.hpp"
+#include "restio.hpp"
 
 string ElementQuery::STRAT_CLASS = "class name";
 string ElementQuery::STRAT_CSS_SELECTOR = "css selector";
@@ -42,7 +43,7 @@ void Element::click() {
   extern std::string seleniumURL;
 
   restio* rio = new restio();
-  ptree resp = rio->post(seleniumURL + 
+  seleniumAnswer* ans = rio->post(seleniumURL + 
                                  "/session/" + 
                                  sessid + 
                                  "/element/" + 
@@ -60,7 +61,7 @@ string Element::getText() {
   
   //cout << "TEXT_URL:" << seleniumURL + "/session/" + sessid + "/element/" + id + "/text" <<endl;
 
-  ptree resp = rio->get(seleniumURL + 
+  seleniumAnswer* ans = rio->get(seleniumURL + 
                                 "/session/" + 
                                 sessid + 
                                 "/element/" + 
@@ -69,8 +70,8 @@ string Element::getText() {
   
   rio->destroy();
   
-  if (  resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return resp.get<string>("value");
+  if (  ans->status == restio::statusmap["Success"] ) {
+    return ans->getString();
   }
   else throw wee;
 
@@ -98,7 +99,7 @@ void Element::sendKeys(string keys) {
   }
   keys_array += "]";
   pdata = "{\"value\":" + keys_array  +  "}";
-  std::cout << pdata << std::endl;
+  //std::cout << pdata << std::endl;
   restio* rio = new restio();
   
   rio->post(seleniumURL + 
@@ -118,11 +119,11 @@ Element* Element::element(ElementQuery* eq) {
   std::string pdata = eq->json_encode();
 
   restio* rio = new restio();
-  ptree resp = rio->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/element" ,pdata);
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/element" ,pdata);
   rio->destroy();  
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-    return new Element(sessid,resp.get<string>("value.ELEMENT") );
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getElement(sessid);
   }
   else throw wee;
   
@@ -138,16 +139,11 @@ std::vector<Element*> Element::elements(ElementQuery* eq) {
   std::string pdata = eq->json_encode();
 
   restio* rio = new restio();
-  ptree resp = rio->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/elements" ,pdata);
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + sessid + "/element/" + id + "/elements" ,pdata);
   rio->destroy();  
 
-  if (resp.get<int>("status") == restio::statusmap["Success"] ) {
-
-       BOOST_FOREACH(boost::property_tree::ptree::value_type &v,
-                     resp.get_child("value")) {
-         const ptree& child = v.second;
-         result.push_back(new Element(sessid,child.get<string>("ELEMENT")));
-       }
+  if (ans->status == restio::statusmap["Success"] ) {
+    result = ans->getElements(sessid);
   }
   else throw wee;
   return result;
@@ -161,7 +157,7 @@ std::string Element::getCSS(std::string property) {
   extern std::string seleniumURL;
   restio* rio = new restio();
   
-  ptree resp = rio->get(seleniumURL + 
+  seleniumAnswer* ans = rio->get(seleniumURL + 
                                 "/session/" + 
                                 sessid + 
                                 "/element/" + 
@@ -169,8 +165,8 @@ std::string Element::getCSS(std::string property) {
                                 "/css/" + property);
   rio->destroy();
 
-  if (resp.get<int>("status") == restio::statusmap["Success"]) {
-    return resp.get<string>("value");
+  if (ans->status == restio::statusmap["Success"]) {
+    return ans->getString();
   }
   else throw wee;
 }
@@ -180,7 +176,7 @@ std::string Element::getAttribute(std::string attr) {
   extern std::string seleniumURL;
   restio* rio = new restio();
 
-  ptree resp = rio->get(seleniumURL + 
+  seleniumAnswer* ans = rio->get(seleniumURL + 
                                 "/session/" + 
                                 sessid + 
                                 "/element/" + 
@@ -188,8 +184,8 @@ std::string Element::getAttribute(std::string attr) {
                                 "/attribute/" + attr);
   
   rio->destroy();
-  if (resp.get<int>("status") == restio::statusmap["Success"]) {
-    return resp.get<string>("value");
+  if (ans->status == restio::statusmap["Success"]) {
+    return ans->getString();
   }
   else throw wee;
 }

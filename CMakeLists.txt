@@ -6,11 +6,12 @@ add_library(selenium++
             SHARED
             src/assoc.hpp
             src/http.cpp
+            src/seleniumanswer.cpp
             src/restio.cpp
             src/selenium.cpp
             src/capabilities.cpp
             src/utils.cpp
-            src/json.cpp
+            src/jsonengine.cpp
             src/session.cpp
             src/element.cpp
             src/log.cpp
@@ -26,6 +27,7 @@ add_library(selenium++
 
 
 find_library (CURL curl)
+#find_library(JSON json)
 
 target_link_libraries(
   selenium++
@@ -43,9 +45,11 @@ install (FILES src/selenium.hpp DESTINATION include/selenium)
 install (FILES src/session.hpp DESTINATION include/selenium)
 install (FILES src/capabilities.hpp DESTINATION include/selenium)
 install (FILES src/element.hpp DESTINATION include/selenium)
-install (FILES src/json.hpp DESTINATION include/selenium)
+install (FILES src/jsonengine.hpp DESTINATION include/selenium)
 install (FILES src/http.hpp DESTINATION include/selenium)
 install (FILES src/restio.hpp DESTINATION include/selenium)
+install (FILES src/seleniumanswer.hpp DESTINATION include/selenium)
+
 
 install (FILES src/utils.hpp DESTINATION include/selenium)
 install (FILES src/assoc.hpp DESTINATION include/selenium)

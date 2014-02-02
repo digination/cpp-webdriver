@@ -1,3 +1,6 @@
+#ifndef LOG_HPP
+#define LOG_HPP
+
 #include <iostream>
 #include <string>
 
@@ -17,6 +20,8 @@ class Log {
     void print();
 
 };
+
+#endif
 
 
 
