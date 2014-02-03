@@ -7,6 +7,7 @@
 #include "element.hpp"
 #include "log.hpp"
 #include "cookie.hpp"
+#include "exceptions.hpp"
 #include <rapidjson/document.h>
 
 using namespace std;

@@ -5,6 +5,8 @@
 
 using namespace std;
 
+
+
 class WebdriverNetworkException: public exception {
 
   virtual const char* what() const throw()
@@ -24,6 +26,15 @@ class WebdriverAnswerException: public exception {
 
 };
 
+
+class WebdriverValueException: public exception {
+
+  virtual const char* what() const throw()
+  {
+    return "Webdriver triggered an exception because of unexpected Selenium Server value";
+  }
+
+} ;
 
 class WebdriverSessionException: public exception {
 

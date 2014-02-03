@@ -1,5 +1,7 @@
 #include "seleniumanswer.hpp"
 
+WebdriverValueException vex;
+
 seleniumAnswer::seleniumAnswer() {
 
   status = -1;
@@ -27,16 +29,22 @@ int seleniumAnswer::getInt() {
 }
 
 Element* seleniumAnswer::getElement(string sessid) {
-  string eid = value_object["ELEMENT"].GetString();
-  return new Element(sessid,eid);
+  if (value_object.IsObject()) {
+    string eid = value_object["ELEMENT"].GetString();
+    return new Element(sessid,eid);
+  }
+  else throw vex;
 }
 
 vector<Element*> seleniumAnswer::getElements(string sessid) {
   vector<Element*> result;
-  for (SizeType i = 0; i < value_object.Size(); i++) {
-    result.push_back(new Element(sessid, value_object[i]["ELEMENT"].GetString() ));
+  if (value_object.IsArray()) {
+    for (SizeType i = 0; i < value_object.Size(); i++) {
+      result.push_back(new Element(sessid, value_object[i]["ELEMENT"].GetString() ));
+    }
+    return result;
   }
-  return result;
+  else throw vex;
 }
 
 vector<Cookie*> seleniumAnswer::getCookies() {
