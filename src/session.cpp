@@ -286,9 +286,9 @@ std::string Session::getSource() {
 void Session::cleanElements(vector<Element*>* toclean) {
 
   for (int i=0;i<toclean->size();i++) {
-    delete toclean[i];
+    delete toclean->at(i);
   }
-  
+
   toclean->clear();
 
 }
