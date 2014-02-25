@@ -189,3 +189,9 @@ std::string Element::getAttribute(std::string attr) {
   }
   else throw wee;
 }
+
+//function that clones the object and returns a new reference.
+
+Element* clone_() {
+  return new Element(sessid,id);
+}

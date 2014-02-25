@@ -45,8 +45,9 @@ class Element {
     string getText();
     string getCSS(std::string property);
     string getAttribute(std::string attr);
-
     string getName();
+
+    Element* clone_();
     
 
 };
