@@ -9,10 +9,7 @@
 using std::string;
 
 class ElementQuery {
-
-  private:
-    string strat;
-    string value;  
+    
   public:
    
     static string STRAT_CLASS ;
@@ -27,6 +24,8 @@ class ElementQuery {
   	ElementQuery(string,string);
     string json_encode();
 
+    string strat;
+    string value;
 };
 
 class Element {

@@ -52,6 +52,7 @@ Element* Session::element(ElementQuery* eq) {
   std::string pdata = eq->json_encode();
   seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/element",pdata);
   rio->destroy();
+  
 
   if (ans->status == restio::statusmap["Success"] ) {
     return ans->getElement(id);
@@ -62,11 +63,9 @@ Element* Session::element(ElementQuery* eq) {
 std::vector <Element*> Session::elements(ElementQuery* eq) {
   std::vector<Element*> result;
   std::string pdata = eq->json_encode();
-
   restio* rio = new restio();
   seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/elements",pdata);
   rio->destroy();
-
   if (ans->status == restio::statusmap["Success"] ) {
      result = ans->getElements(id);
   }
@@ -88,15 +87,51 @@ Element* Session::activeElement() {
 
 //################ WINDOW MANAGEMENT FCTS ##################
 
+void Session::activateWindow(string handle) {
+  /* activates the window whanving the handle provided in argument. */
+  restio* rio = new restio();
+  std::string pdata = "{\"name\":\"" + handle + "\"}";
+
+  seleniumAnswer* ans = rio->post(seleniumURL + "/session/" + id + "/window",pdata);
+  rio->destroy();
+
+}
+
+
+void Session::window(string url) {
+  /* convenience function used to create a new window for a session, at the specified url.
+     Uses Session::execute() */
+  string js_cmd;
+
+  if (url != "")
+    js_cmd = "window.open('" + url + "');";
+  else js_cmd = "window.open();";  
+  
+  execute(js_cmd,false);
+
+}
+
 std::string Session::getWindowHandle() {
   /* Retrieves the handle of the current window */
-
   restio* rio = new restio();
   seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/window_handle");
   rio->destroy();
 
   if (ans->status == restio::statusmap["Success"] ) {
     return ans->getString();
+  }
+  else throw wse;
+
+}
+
+vector<std::string> Session::getWindowHandles() {
+  /* Retrieves the handle of all the windows */
+  restio* rio = new restio();
+  seleniumAnswer* ans = rio->get(seleniumURL + "/session/" + id + "/window_handles");
+  rio->destroy();
+
+  if (ans->status == restio::statusmap["Success"] ) {
+    return ans->getWindows();
   }
   else throw wse;
 
@@ -245,4 +280,15 @@ std::string Session::getSource() {
     return ans->getString();
   }
   else throw wse;
+}
+
+
+void Session::cleanElements(vector<Element*>* toclean) {
+
+  for (int i=0;i<toclean->size();i++) {
+    delete toclean[i];
+  }
+  
+  toclean->clear();
+
 }

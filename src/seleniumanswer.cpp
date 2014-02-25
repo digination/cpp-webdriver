@@ -47,6 +47,18 @@ vector<Element*> seleniumAnswer::getElements(string sessid) {
   else throw vex;
 }
 
+vector<string> seleniumAnswer::getWindows() {
+  vector<string> result;
+  if (value_object.IsArray()) {
+    for (SizeType i = 0; i < value_object.Size(); i++) {
+      result.push_back(value_object[i]["WINDOW"].GetString() );
+    }
+    return result;
+  }
+  else throw vex;
+}
+
+
 vector<Cookie*> seleniumAnswer::getCookies() {
   vector<Cookie*> result;
   return result;

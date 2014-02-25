@@ -23,7 +23,7 @@ class seleniumAnswer {
     string getSession();
     Element* getElement(string);
     vector<Element*> getElements(string);
-
+    vector<string> getWindows();
     vector<Cookie*> getCookies();
     vector<Log*> getLogs();
 

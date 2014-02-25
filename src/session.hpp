@@ -29,6 +29,9 @@ class Session {
     string getURL(); 
     string getScreenshot();
     string getWindowHandle();
+    void  activateWindow(string handle);
+    void  window(string) ;
+    vector<std::string> getWindowHandles();
     int* getWindowSize(string);
     std::vector<Log*> getLogs(string);
     string getSource();
@@ -45,5 +48,6 @@ class Session {
     string getAlertText();
     void sendKeysToAlert(string);
 
+    void cleanElements(vector<Element*>*);
 };
 
