@@ -16,6 +16,12 @@ using namespace std;
 		          } Data ;
 		          vector<Data> stack;
 	          public:
+
+                  int Clear() {
+                    stack.clear();
+                    return 0;
+                  }
+
 		          long Size()
 		          {
 			          return stack.size();
